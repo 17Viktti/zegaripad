@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -8,38 +7,14 @@
   <title>Zegar iPad</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
+    html, body {
       margin: 0;
       width: 100%;
       height: 100%;
       overflow: hidden;
-
-      background:
-        radial-gradient(
-          circle at 50% 45%,
-          #34234a 0%,
-          #241631 42%,
-          #100b18 100%
-        );
-
-      color: #ffffff;
-
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "SF Pro Display",
-        "Helvetica Neue",
-        Arial,
-        sans-serif;
-    }
-
-    body {
-      position: relative;
+      background: #000;
+      color: white;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
     }
 
     .screen {
@@ -48,146 +23,92 @@
       position: relative;
     }
 
-    /* GŁÓWNY ZEGAR */
-
     .center {
       position: absolute;
-
       top: 50%;
       left: 50%;
-
       transform: translate(-50%, -50%);
-
       width: 100%;
-
       text-align: center;
     }
 
     #clock {
       font-size: 18vw;
       max-width: 95vw;
-
       font-weight: 200;
-
       letter-spacing: -3px;
       line-height: 1;
-
       font-variant-numeric: tabular-nums;
-
       white-space: nowrap;
-
-      text-shadow:
-        0 0 30px rgba(255, 255, 255, 0.08);
     }
 
     #date {
       margin-top: 30px;
-
       text-align: center;
-
       font-size: 4vw;
-
       line-height: 1.2;
-
       font-weight: 300;
+    }
+  </style>
+</head>
 
-      letter-spacing: 0.5px;
+<body>
 
-      opacity: 0.75;
+  <div class="screen">
+
+    <div class="center">
+      <div id="clock">00:00</div>
+      <div id="date">poniedziałek, 1 stycznia</div>
+    </div>
+
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+
+      document.getElementById("clock").textContent =
+        hours + ":" + minutes;
+
+      const days = [
+        "niedziela",
+        "poniedziałek",
+        "wtorek",
+        "środa",
+        "czwartek",
+        "piątek",
+        "sobota"
+      ];
+
+      const months = [
+        "stycznia",
+        "lutego",
+        "marca",
+        "kwietnia",
+        "maja",
+        "czerwca",
+        "lipca",
+        "sierpnia",
+        "września",
+        "października",
+        "listopada",
+        "grudnia"
+      ];
+
+      document.getElementById("date").textContent =
+        days[now.getDay()] +
+        ", " +
+        now.getDate() +
+        " " +
+        months[now.getMonth()];
     }
 
-    /* GÓRA LEWA */
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
 
-    .quote {
-      position: absolute;
-
-      top: 5%;
-      left: 4%;
-
-      font-size: 2.2vw;
-
-      font-weight: 400;
-
-      letter-spacing: 0.8px;
-
-      opacity: 0.78;
-
-      white-space: nowrap;
-    }
-
-    /* GÓRA PRAWA */
-
-    .weather {
-      position: absolute;
-
-      top: 5%;
-      right: 4%;
-
-      text-align: right;
-
-      font-size: 2.2vw;
-
-      font-weight: 400;
-
-      letter-spacing: 0.8px;
-
-      opacity: 0.78;
-
-      white-space: nowrap;
-    }
-
-    /* DELIKATNE LINIE */
-
-    .line {
-      position: absolute;
-
-      height: 1px;
-
-      background: rgba(255, 255, 255, 0.16);
-    }
-
-    .line-top {
-      top: 12%;
-      left: 4%;
-
-      width: 14%;
-    }
-
-    .line-weather {
-      top: 12%;
-      right: 4%;
-
-      width: 14%;
-    }
-
-    .line-bottom-left {
-      bottom: 12%;
-      left: 4%;
-
-      width: 12%;
-    }
-
-    .line-bottom-right {
-      bottom: 12%;
-      right: 4%;
-
-      width: 12%;
-    }
-
-    /* KROPKI */
-
-    .small-dot {
-      position: absolute;
-
-      width: 4px;
-      height: 4px;
-
-      background: rgba(255, 255, 255, 0.35);
-
-      border-radius: 50%;
-    }
-
-    .dot-1 {
-      top: calc(12% - 2px);
-      left:
-```
+</body>
+</html>
