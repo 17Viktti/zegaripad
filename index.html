@@ -1,68 +1,83 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Zegar</title>
-<style>
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#08080b;color:#eee9ff;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}
-body{display:flex;align-items:center;justify-content:center}
-.clock{width:100%;height:100%;box-sizing:border-box;padding:7vh 7vw;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.top{position:absolute;top:6vh;left:7vw;right:7vw;display:flex;justify-content:space-between;align-items:flex-start;font-size:15px;letter-spacing:2px;color:#bdb5d8}
-.quote{line-height:1.6}
-.weather{text-align:right;line-height:1.6}
-.moon{font-size:25px;vertical-align:middle;margin-right:8px}
-.time{font-size:clamp(80px,15vw,155px);font-weight:300;letter-spacing:4px;line-height:1;margin-top:-2vh;text-shadow:0 0 24px rgba(205,190,255,.16)}
-.date{font-size:clamp(20px,3vw,32px);margin-top:25px;font-weight:300;letter-spacing:1px;color:#c8c0df}
-.seconds{font-size:18px;letter-spacing:4px;margin-top:14px;color:#777087}
-.message{position:absolute;bottom:13vh;display:flex;align-items:center;gap:22px;letter-spacing:5px;font-size:14px;color:#bdb5d8}
-.line{width:85px;height:1px;background:#645b78}
-.bottom{position:absolute;bottom:6vh;left:7vw;right:7vw;display:flex;justify-content:space-between;color:#8f879e;font-size:14px;letter-spacing:1px}
-.flower{position:absolute;left:0;bottom:0;opacity:.22;font-size:70px;transform:rotate(-12deg)}
-@media (max-width:600px){.clock{padding:5vh 5vw}.top{left:5vw;right:5vw}.bottom{left:5vw;right:5vw}.line{width:40px}.message{gap:10px;font-size:11px;letter-spacing:3px}.weather{font-size:12px}.quote{font-size:12px}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zegar iPad</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                   "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #clock {
+      font-size: clamp(70px, 18vw, 260px);
+      font-weight: 200;
+      letter-spacing: -6px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    #date {
+      margin-top: 10px;
+      text-align: center;
+      font-size: clamp(18px, 3vw, 40px);
+      font-weight: 300;
+      opacity: 0.75;
+    }
+
+    .container {
+      text-align: center;
+    }
+  </style>
 </head>
+
 <body>
-<div class="clock">
-  <div class="top">
-    <div class="quote">Good things<br>take time ♡</div>
-    <div class="weather"><span class="moon">☾</span> <span id="temp">16°C</span><br>Bezchmurnie</div>
+
+  <div class="container">
+    <div id="clock">00:00:00</div>
+    <div id="date"></div>
   </div>
 
-  <div class="time" id="time">00:00</div>
-  <div class="date" id="date">—</div>
-  <div class="seconds" id="seconds">00 SEKUND</div>
+  <script>
+    function updateClock() {
+      const now = new Date();
 
-  <div class="message"><span class="line"></span><span>DOBRZE, ŻE JESTEŚ ♡</span><span class="line"></span></div>
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      const seconds = String(now.getSeconds()).padStart(2, "0");
 
-  <div class="bottom">
-    <div>⌁ ZEGAR • LIVE</div>
-    <div id="battery">ŁADOWANIE</div>
-    <div id="today">DZIŚ</div>
-  </div>
-  <div class="flower">❀</div>
-</div>
+      document.getElementById("clock").textContent =
+        `${hours}:${minutes}:${seconds}`;
 
-<script>
-var days=["Niedziela","Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota"];
-var months=["stycznia","lutego","marca","kwietnia","maja","czerwca","lipca","sierpnia","września","października","listopada","grudnia"];
+      const date = now.toLocaleDateString("pl-PL", {
+        weekday: "long",
+        day: "numeric",
+        month: "long"
+      });
 
-function pad(n){return n<10?"0"+n:n;}
-function tick(){
-  var d=new Date();
-  document.getElementById("time").textContent=pad(d.getHours())+":"+pad(d.getMinutes());
-  document.getElementById("seconds").textContent=pad(d.getSeconds())+" SEKUND";
-  document.getElementById("date").textContent=days[d.getDay()]+", "+d.getDate()+" "+months[d.getMonth()]+" "+d.getFullYear();
-  document.getElementById("today").textContent="DZIŚ • "+days[d.getDay()].toUpperCase();
-}
-tick(); setInterval(tick,1000);
+      document.getElementById("date").textContent = date;
+    }
 
-if(navigator.getBattery){
-  navigator.getBattery().then(function(b){
-    function bat(){document.getElementById("battery").textContent="BATTERIA • "+Math.round(b.level*100)+"%"+(b.charging?" • ŁADOWANIE":"");}
-    bat(); b.addEventListener("levelchange",bat); b.addEventListener("chargingchange",bat);
-  });
-}
-</script>
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+
 </body>
 </html>
