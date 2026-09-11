@@ -21,12 +21,12 @@
       background:
         radial-gradient(
           circle at 50% 45%,
-          #3b2852 0%,
-          #251735 45%,
-          #100a18 100%
+          #34234a 0%,
+          #241631 45%,
+          #100b18 100%
         );
 
-      color: #ffffff;
+      color: white;
 
       font-family:
         -apple-system,
@@ -43,15 +43,13 @@
       position: relative;
     }
 
-    /* GŁÓWNY ZEGAR */
+    /* ZEGAR */
 
     .center {
       position: absolute;
       top: 50%;
       left: 50%;
-
       transform: translate(-50%, -50%);
-
       width: 100%;
       text-align: center;
     }
@@ -59,53 +57,38 @@
     #clock {
       font-size: 18vw;
       max-width: 95vw;
-
       font-weight: 200;
-
       letter-spacing: -3px;
       line-height: 1;
-
       font-variant-numeric: tabular-nums;
-
       white-space: nowrap;
 
       text-shadow:
-        0 0 18px rgba(255, 255, 255, 0.06),
-        0 0 45px rgba(190, 150, 220, 0.08);
+        0 0 30px rgba(255,255,255,0.08);
     }
 
     #date {
       margin-top: 30px;
-
       text-align: center;
-
       font-size: 4vw;
-
       line-height: 1.2;
-
       font-weight: 300;
-
       letter-spacing: 0.5px;
-
-      opacity: 0.68;
+      opacity: 0.75;
     }
 
     /* GÓRA LEWA */
 
     .quote {
       position: absolute;
-
       top: 5%;
       left: 4%;
 
       font-size: 2.2vw;
-
-      font-weight: 350;
-
+      font-weight: 400;
       letter-spacing: 0.8px;
 
-      opacity: 0.72;
-
+      opacity: 0.78;
       white-space: nowrap;
     }
 
@@ -113,18 +96,14 @@
 
     .weather {
       position: absolute;
-
       top: 5%;
       right: 4%;
 
       font-size: 2.2vw;
-
-      font-weight: 350;
-
+      font-weight: 400;
       letter-spacing: 0.8px;
 
-      opacity: 0.72;
-
+      opacity: 0.78;
       white-space: nowrap;
     }
 
@@ -132,10 +111,8 @@
 
     .line {
       position: absolute;
-
       height: 1px;
-
-      background: rgba(255, 255, 255, 0.13);
+      background: rgba(255,255,255,0.16);
     }
 
     .line-top {
@@ -166,16 +143,11 @@
 
     .small-dot {
       position: absolute;
-
       width: 4px;
       height: 4px;
-
       border-radius: 50%;
 
-      background: rgba(255, 255, 255, 0.28);
-
-      box-shadow:
-        0 0 8px rgba(255, 255, 255, 0.12);
+      background: rgba(255,255,255,0.35);
     }
 
     .dot-1 {
@@ -202,11 +174,209 @@
 
     .live {
       position: absolute;
-
       left: 4%;
       bottom: 5%;
 
       display: flex;
-
       align-items: center;
+      gap: 12px;
+
+      font-size: 2vw;
+      font-weight: 300;
+      letter-spacing: 0.7px;
+
+      opacity: 0.78;
+      white-space: nowrap;
+    }
+
+    .flower {
+      font-size: 2.5vw;
+      opacity: 0.85;
+    }
+
+    /* DÓŁ ŚRODEK */
+
+    .message {
+      position: absolute;
+      bottom: 4.5%;
+      left: 50%;
+      transform: translateX(-50%);
+
+      text-align: center;
+
+      font-size: 2.2vw;
+      font-weight: 300;
+      letter-spacing: 0.8px;
+
+      opacity: 0.78;
+      white-space: nowrap;
+    }
+
+    .battery {
+      margin-top: 8px;
+      font-size: 1.7vw;
+      opacity: 0.55;
+    }
+
+    /* DÓŁ PRAWA */
+
+    .today {
+      position: absolute;
+      right: 4%;
+      bottom: 5%;
+
+      font-size: 2vw;
+      font-weight: 300;
+      letter-spacing: 0.7px;
+
+      opacity: 0.78;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="screen">
+
+    <div class="quote">
+      good things take time ♡
+    </div>
+
+    <div class="weather" id="weather">
+      ☁ 18°C
+    </div>
+
+    <div class="line line-top"></div>
+    <div class="line line-weather"></div>
+
+    <div class="line line-bottom-left"></div>
+    <div class="line line-bottom-right"></div>
+
+    <div class="small-dot dot-1"></div>
+    <div class="small-dot dot-2"></div>
+    <div class="small-dot dot-3"></div>
+    <div class="small-dot dot-4"></div>
+
+    <div class="center">
+
+      <div id="clock">
+        00:00
+      </div>
+
+      <div id="date">
+        poniedziałek, 1 stycznia
+      </div>
+
+    </div>
+
+    <div class="live">
+      <span class="flower">✿</span>
+      <span>zegar · live</span>
+    </div>
+
+    <div class="message">
+
+      <div>
+        dobrze, że jesteś ♡
+      </div>
+
+      <div class="battery">
+        bateria · iPad
+      </div>
+
+    </div>
+
+    <div class="today" id="today">
+      Dziś · poniedziałek
+    </div>
+
+  </div>
+
+  <script>
+    function updateClock() {
+
+      const now = new Date();
+
+      const hours =
+        String(now.getHours()).padStart(2, "0");
+
+      const minutes =
+        String(now.getMinutes()).padStart(2, "0");
+
+      document.getElementById("clock").textContent =
+        hours + ":" + minutes;
+
+
+      const days = [
+        "niedziela",
+        "poniedziałek",
+        "wtorek",
+        "środa",
+        "czwartek",
+        "piątek",
+        "sobota"
+      ];
+
+      const months = [
+        "stycznia",
+        "lutego",
+        "marca",
+        "kwietnia",
+        "maja",
+        "czerwca",
+        "lipca",
+        "sierpnia",
+        "września",
+        "października",
+        "listopada",
+        "grudnia"
+      ];
+
+
+      const day = days[now.getDay()];
+
+      const date = now.getDate();
+
+      const month = months[now.getMonth()];
+
+
+      document.getElementById("date").textContent =
+        day + ", " + date + " " + month;
+
+
+      document.getElementById("today").textContent =
+        "Dziś · " + day;
+    }
+
+
+    updateClock();
+
+    setInterval(updateClock, 1000);
+
+
+    /* LOSOWA POGODA */
+
+    const weatherOptions = [
+      "☀ 21°C",
+      "☁ 18°C",
+      "☾ 16°C",
+      "☼ 23°C",
+      "☁ 15°C",
+      "☀ 25°C",
+      "☂ 17°C",
+      "☾ 14°C"
+    ];
+
+    const randomWeather =
+      weatherOptions[
+        Math.floor(Math.random() * weatherOptions.length)
+      ];
+
+    document.getElementById("weather").textContent =
+      randomWeather;
+  </script>
+
+</body>
+</html>
 ```
